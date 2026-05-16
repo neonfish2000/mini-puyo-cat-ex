@@ -443,6 +443,24 @@ document.body.addEventListener("click", function() {
     const bgm = document.getElementById("bgm");
     bgm.play();
 }, { once: true });
+
+function changeBGM(name) {
+    const bgm = document.getElementById("bgm");
+
+    if (name === "normal") {
+        bgm.src = "bgm_normal.mp3";
+    }
+
+    if (name === "mid") {
+        bgm.src = "bgm_mid.mp3";
+    }
+
+    if (name === "fast") {
+        bgm.src = "bgm_fast.mp3";
+    }
+
+    bgm.play();
+}
 </script>
     
 </body>
