@@ -444,8 +444,16 @@ document.body.addEventListener("click", function() {
     bgm.play();
 }, { once: true });
 
+let currentBGM = "normal";
+
 function changeBGM(name) {
     const bgm = document.getElementById("bgm");
+
+    if (currentBGM === name) {
+        return;
+    }
+
+    currentBGM = name;
 
     if (name === "normal") {
         bgm.src = "bgm_normal.mp3";
