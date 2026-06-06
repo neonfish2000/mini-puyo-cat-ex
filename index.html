@@ -432,6 +432,50 @@ frameborder="1"
         window.frames["iframe"].location = url;
     }
 
+        // ===== Mini Puyo CAT EX BGM =====
+
+let currentBGM = null;
+
+function changeBGM(mode) {
+
+    if (currentBGM) {
+        currentBGM.pause();
+        currentBGM.currentTime = 0;
+    }
+
+    if (mode === "normal") {
+        currentBGM = new Audio("bgm_normal.mp3");
+    }
+    else if (mode === "mid") {
+        currentBGM = new Audio("bgm_mid.mp3");
+    }
+    else if (mode === "fast") {
+        currentBGM = new Audio("bgm_fast.mp3");
+    }
+
+    if (currentBGM) {
+        currentBGM.loop = true;
+        currentBGM.volume = 0.25;
+
+        currentBGM.play().catch(err => {
+            console.log("BGM blocked:", err);
+        });
+    }
+}
+
+function pauseBGM() {
+    if (currentBGM) {
+        currentBGM.pause();
+    }
+}
+
+function resumeBGM() {
+    if (currentBGM) {
+        currentBGM.play().catch(err => {
+            console.log("Resume blocked:", err);
+        });
+    }
+}
     </script>
 
 </body>
