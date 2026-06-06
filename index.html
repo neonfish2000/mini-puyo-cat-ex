@@ -435,9 +435,16 @@ frameborder="1"
         // ===== Mini Puyo CAT EX BGM =====
 
 let currentBGM = null;
+let currentBGMName = null;
+let bgmStarted = false;
 
 function changeBGM(mode) {
+        if (currentBGMName === mode) {
+        return;
+    }
 
+    currentBGMName = mode;
+    
     if (currentBGM) {
         currentBGM.pause();
         currentBGM.currentTime = 0;
@@ -476,7 +483,15 @@ function resumeBGM() {
         });
     }
 }
-    </script>
+
+document.body.addEventListener("click", function() {
+    if (!bgmStarted) {
+        bgmStarted = true;
+        changeBGM("normal");
+    }
+}, { once: true });
+        
+</script>
 
 </body>
 </html>
