@@ -432,53 +432,60 @@ frameborder="1"
         window.frames["iframe"].location = url;
     }
 
-        // ===== Mini Puyo CAT EX BGM =====
+// ===== Mini Puyo CAT EX BGM =====
 
-let currentBGM = null;
+const bgms = {
+    normal: new Audio("bgm_normal.mp3"),
+    mid: new Audio("bgm_mid.mp3"),
+    fast: new Audio("bgm_fast.mp3")
+};
+
 let currentBGMName = null;
 let bgmStarted = false;
+let bgmPaused = false;
+
+for (const key in bgms) {
+    bgms[key].loop = true;
+    bgms[key].volume = 0.25;
+    bgms[key].preload = "auto";
+}
 
 function changeBGM(mode) {
-        if (currentBGMName === mode) {
+    if (!bgms[mode]) {
         return;
     }
 
+    if (currentBGMName === mode) {
+        return;
+    }
+
+    if (currentBGMName && bgms[currentBGMName]) {
+        bgms[currentBGMName].pause();
+        bgms[currentBGMName].currentTime = 0;
+    }
+
     currentBGMName = mode;
-    
-    if (currentBGM) {
-        currentBGM.pause();
-        currentBGM.currentTime = 0;
-    }
 
-    if (mode === "normal") {
-        currentBGM = new Audio("bgm_normal.mp3");
-    }
-    else if (mode === "mid") {
-        currentBGM = new Audio("bgm_mid.mp3");
-    }
-    else if (mode === "fast") {
-        currentBGM = new Audio("bgm_fast.mp3");
-    }
-
-    if (currentBGM) {
-        currentBGM.loop = true;
-        currentBGM.volume = 0.25;
-
-        currentBGM.play().catch(err => {
+    if (!bgmPaused) {
+        bgms[currentBGMName].play().catch(err => {
             console.log("BGM blocked:", err);
         });
     }
 }
 
 function pauseBGM() {
-    if (currentBGM) {
-        currentBGM.pause();
+    bgmPaused = true;
+
+    if (currentBGMName && bgms[currentBGMName]) {
+        bgms[currentBGMName].pause();
     }
 }
 
 function resumeBGM() {
-    if (currentBGM) {
-        currentBGM.play().catch(err => {
+    bgmPaused = false;
+
+    if (currentBGMName && bgms[currentBGMName]) {
+        bgms[currentBGMName].play().catch(err => {
             console.log("Resume blocked:", err);
         });
     }
